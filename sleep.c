@@ -50,9 +50,9 @@ long syscall3(long number, long arg1, long arg2, long arg3) {
 }
 
 
-int parse_int(char *raw_int) {
+int parse_int(const char *raw_int) {
     int result = 0;
-    char *cursor = raw_int;
+    const char *cursor = raw_int;
 
     while (*cursor >= '0' && *cursor <= '9') {
         result = result * 10 + (*cursor - '0');
@@ -63,8 +63,8 @@ int parse_int(char *raw_int) {
 }
 
 
-long unsigned strlen(char *string) {
-    char *cursor = string;
+long unsigned strlen(const char *string) {
+    const char *cursor = string;
     while (*cursor) {
         cursor++;
     }
@@ -74,7 +74,7 @@ long unsigned strlen(char *string) {
 }
 
 
-void print(char *string) {
+void print(const char *string) {
     syscall3(SYS_write, 1, (long)string, strlen(string));
 }
 
@@ -104,8 +104,11 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+#ifdef __cplusplus  
+extern "C" {
+#endif
 
-void exit(int code) {
+ void exit(int code) {
     syscall1(SYS_exit, code);
 
     for(;;) {}
@@ -123,3 +126,7 @@ __attribute__((naked)) void _start() {
         "call exit\n"
     );
 }
+
+#ifdef __cplusplus
+}
+#endif

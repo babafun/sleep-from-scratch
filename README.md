@@ -14,3 +14,12 @@ Sources:
 
 
 License: either MIT or Public Domain, whichever you prefer.
+
+
+Build:
+
+```
+rustc -o sleep_rs ./sleep.rs --edition=2024 -Copt-level=3 -Clink-arg=-nostartfiles  -Cpanic=abort -Cstrip=debuginfo
+
+gcc -o sleep_c -O3 -nolibc -fno-stack-protector -nostartfiles sleep.c
+```
